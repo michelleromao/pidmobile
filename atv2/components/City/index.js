@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Vibration } from 'react-native';
 
 
-export default function City({photo, city}) {
+
+export default function City({photo, city, setVoteCity}) {
+  const [vote, setVote] = useState(0);
+
+  const handleVoteCity = useCallback(() =>{
+    setVote(vote + 1);
+    setVoteCity(vote + 1);
+  },[vote]);
+
   return (
     <View style={styles.container}>
       <Image source={photo} />
       <Text style={styles.text}>{city}</Text>
-      <TouchableOpacity  style={styles.button} onPress={() => Vibration.vibrate(100)} >
+      <TouchableOpacity  style={styles.button} onPress={handleVoteCity} >
         <Text style={styles.textButton}>VOTE</Text>
       </TouchableOpacity>
     </View>

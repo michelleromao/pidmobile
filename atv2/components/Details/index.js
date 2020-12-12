@@ -1,11 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 
 var width = Dimensions.get('window').width;
 
-export default function Details({more, less}) {
-  const [moreVote, setMoreVote] = useState(() => more ? more.join(' - ') : ' ');
-  const [lessVote, setLessVote] = useState(() => less ? less.join(' - ') : ' ');
+export default function Details({result}) {
+  const [moreVote, setMoreVote] = useState([]);
+  const [lessVote, setLessVote] = useState([]);
+
+  useEffect(()=>{
+ 
+    const values = result.map(item =>{
+      return item.votes;
+    });
+    const max = values.reduce((a,b) =>{
+      return Math.max(a,b);
+    });
+    const min = values.reduce((a,b) =>{
+      return Math.min(a,b);
+    });
+
+    let arrMore = [];
+    let arrLess = [];
+
+    result.find((item)=>{
+      if(item.votes === max && max != 0){
+        arrMore.push(item.city);
+      }
+    });
+    result.find((item)=>{
+      if(item.votes === min && min != 0 && min != max){
+        arrLess.push(item.city);
+      }
+    });
+    setMoreVote(arrMore);
+    setLessVote(arrLess);
+
+  },[result]);
 
   return (
     <>
@@ -16,7 +46,7 @@ export default function Details({more, less}) {
         Mais votada(s): 
       </Text>
       <Text  style={styles.textBody}>
-          {moreVote}
+          {moreVote.join(" - ")}
       </Text>
       
     </View>
@@ -28,7 +58,7 @@ export default function Details({more, less}) {
         Menos votada(s): 
       </Text>
       <Text style={styles.textTitle}>
-        {lessVote}
+        {lessVote.join(" - ")}
       </Text>
     </View>
 

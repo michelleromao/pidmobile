@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import React, { useCallback, useState, useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
 
 import TitleSection from './components/TitleSection';
 import City from './components/City';
@@ -12,10 +12,28 @@ import Quixada from './assets/quixada.png'
 import Limoeiro from './assets/limoeiro.png'
 import Juazeiro from './assets/juazeiro.png'
 
-var width = Dimensions.get('window').width;
-
-
 export default function App() {
+  const [voteFortaleza, setVoteFortaleza] = useState(0);
+  const [voteQuixada, setVoteQuixada] = useState(0);
+  const [voteLimoeiro, setVoteLimoeiro] = useState(0);
+  const [voteJuazeiro, setVoteJuazeiro] = useState(0);
+
+  const handleVoteFortaleza = useCallback((qtdFortaleza) =>{
+    setVoteFortaleza(qtdFortaleza);
+  },[]);
+
+  const handleVoteQuixada = useCallback((qtdQuixada) =>{
+    setVoteQuixada(qtdQuixada);
+  },[]);
+
+  const handleVoteLimoeiro = useCallback((qtdLimoeiro) =>{
+    setVoteLimoeiro(qtdLimoeiro);
+  },[]);
+
+  const handleVoteJuazeiro = useCallback((qtdJuazeiro) =>{
+    setVoteJuazeiro(qtdJuazeiro);
+  },[]);
+
   return (
     <>
     <View style={styles.bar}/>
@@ -24,21 +42,29 @@ export default function App() {
 
       <TitleSection text="a melhor cidade"/>
 
-      <City photo={Fortaleza} city="Fortaleza"/>
-      <City photo={Quixada} city="Quixadá"/>
-      <City photo={Limoeiro} city="Limoeiro do Norte"/>
-      <City photo={Juazeiro} city="Juazeiro do Norte"/>
+      <City photo={Fortaleza} city="Fortaleza" setVoteCity={handleVoteFortaleza}/>
+      <City photo={Quixada} city="Quixadá" setVoteCity={handleVoteQuixada}/>
+      <City photo={Limoeiro} city="Limoeiro do Norte" setVoteCity={handleVoteLimoeiro}/>
+      <City photo={Juazeiro} city="Juazeiro do Norte" setVoteCity={handleVoteJuazeiro}/>
 
       <TitleSection text="resultados"/>
 
       <View style={styles.containerResults}>
-        <Result photo={Fortaleza}/>
-        <Result photo={Quixada}/>
-        <Result photo={Limoeiro}/>
-        <Result photo={Juazeiro}/>
+        <Result photo={Fortaleza} quantity={voteFortaleza}/>
+        <Result photo={Quixada} quantity={voteQuixada}/>
+        <Result photo={Limoeiro} quantity={voteLimoeiro}/>
+        <Result photo={Juazeiro} quantity={voteJuazeiro}/>
       </View>
 
-     <Details  />
+     <Details 
+     result={
+       [
+        {city:'Fortaleza',votes: voteFortaleza},
+        {city:'Quixada',votes: voteQuixada},
+        {city:'Limoeiro',votes: voteLimoeiro},
+        {city:'Juazeiro',votes: voteJuazeiro},
+
+      ]} />
       <StatusBar style="inverted"  />
     </View>
     </>
