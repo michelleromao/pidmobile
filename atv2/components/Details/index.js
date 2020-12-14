@@ -28,7 +28,7 @@ export default function Details({result}) {
       }
     });
     result.find((item)=>{
-      if(item.votes === min && min != 0 && min != max){
+      if(item.votes === min && min != max){
         arrLess.push(item.city);
       }
     });
