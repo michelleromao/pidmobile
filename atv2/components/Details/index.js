@@ -23,12 +23,12 @@ export default function Details({result}) {
     let arrLess = [];
 
     result.find((item)=>{
-      if(item.votes === max && max != 0){
+      if(item.votes === max && max !== 0){
         arrMore.push(item.city);
       }
     });
     result.find((item)=>{
-      if(item.votes === min && min != max){
+      if(item.votes === min && min !== max){
         arrLess.push(item.city);
       }
     });
