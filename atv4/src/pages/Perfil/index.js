@@ -7,7 +7,6 @@ import Photo from '../../assets/pexels-photo-5941929.jpeg';
 import {Container, Content, Text, Strong, Image} from './styles';
 
 const Perfil = ({navigation, route}) => {
-  console.log(route.params);
   return (
     <Container>
       <Text>
